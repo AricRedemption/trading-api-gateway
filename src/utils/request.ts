@@ -15,6 +15,7 @@ export class RequestUtil {
         url: `${baseUrl}${request.url}`,
         headers: {
           'Content-Type': 'application/json',
+          'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1',
           ...request.headers,
         },
         timeout: 30000,

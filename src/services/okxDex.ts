@@ -70,6 +70,9 @@ export class OkxDexService {
         method: 'GET',
         url: '/priapi/v5/dex/token/market/dex-token-hlc-candles',
         params: queryParams,
+        headers: {
+          Referer: 'https://web3.okx.com/',
+        },
       },
     );
   }
@@ -98,6 +101,9 @@ export class OkxDexService {
         method: 'GET',
         url: '/priapi/v1/dx/market/v2/trading/kline-bs-point',
         params: queryParams,
+        headers: {
+          Referer: 'https://web3.okx.com/',
+        },
       },
     );
   }
@@ -123,6 +129,9 @@ export class OkxDexService {
         method: 'GET',
         url: '/priapi/v1/dx/market/v2/token/vibe/info',
         params: queryParams,
+        headers: {
+          Referer: 'https://web3.okx.com/',
+        },
       },
     );
   }
@@ -148,6 +157,9 @@ export class OkxDexService {
         method: 'GET',
         url: '/priapi/v1/dx/market/v2/trading-history/info',
         params: queryParams,
+        headers: {
+          Referer: 'https://web3.okx.com/',
+        },
       },
     );
   }
@@ -169,6 +181,9 @@ export class OkxDexService {
         method: 'GET',
         url: '/priapi/v1/dx/market/v2/token/overview',
         params: queryParams,
+        headers: {
+          Referer: 'https://web3.okx.com/',
+        },
       },
     );
   }
