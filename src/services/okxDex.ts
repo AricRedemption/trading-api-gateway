@@ -22,7 +22,18 @@ export interface BsPointParams {
 export interface VibeInfoParams {
   chainIndex: string;           // 链ID: 501=Solana, 1=Ethereum
   tokenContractAddress: string; // 代币合约地址
-  timeRangeType?: number;       // 时间范围类型: 1=24h, 2=7d, 3=30d
+  timeRangeType?: number;       // 时间范围类型: 1=24h, 2=3d, 3=7d, 4=30d
+}
+
+export interface TradingHistoryParams {
+  chainId: string;              // 链ID
+  tokenContractAddress: string; // 代币合约地址
+  type?: number;                // 时间范围: 4=5m, 1=1h, 2=4h, 3=24h
+}
+
+export interface TokenOverviewParams {
+  chainId: string;              // 链ID
+  tokenContractAddress: string; // 代币合约地址
 }
 
 export class OkxDexService {
@@ -111,6 +122,52 @@ export class OkxDexService {
       {
         method: 'GET',
         url: '/priapi/v1/dx/market/v2/token/vibe/info',
+        params: queryParams,
+      },
+    );
+  }
+
+  async getTradingHistory(params: TradingHistoryParams): Promise<ProxyResponse> {
+    const { chainId, tokenContractAddress, type } = params;
+
+    logger.info('Fetching OKX DEX trading history', { chainId, tokenContractAddress, type });
+
+    const queryParams: Record<string, string> = {
+      chainId,
+      tokenContractAddress,
+      t: String(Date.now()),
+    };
+
+    if (type !== undefined) {
+      queryParams.type = String(type);
+    }
+
+    return RequestUtil.proxyRequest(
+      this.baseUrl,
+      {
+        method: 'GET',
+        url: '/priapi/v1/dx/market/v2/trading-history/info',
+        params: queryParams,
+      },
+    );
+  }
+
+  async getTokenOverview(params: TokenOverviewParams): Promise<ProxyResponse> {
+    const { chainId, tokenContractAddress } = params;
+
+    logger.info('Fetching OKX DEX token overview', { chainId, tokenContractAddress });
+
+    const queryParams: Record<string, string> = {
+      chainId,
+      tokenContractAddress,
+      t: String(Date.now()),
+    };
+
+    return RequestUtil.proxyRequest(
+      this.baseUrl,
+      {
+        method: 'GET',
+        url: '/priapi/v1/dx/market/v2/token/overview',
         params: queryParams,
       },
     );

@@ -173,6 +173,128 @@ GET /okx-dex/vibe-info
 
 ---
 
+## 4. 交易历史/资金流向
+
+```
+GET /okx-dex/trading-history
+```
+
+### 入参
+
+| 参数 | 类型 | 必填 | 说明 |
+|------|------|:----:|------|
+| chainId | string | ✓ | 链 ID |
+| tokenContractAddress | string | ✓ | 代币合约地址 |
+| type | number | | 时间范围：`4`=5m, `1`=1h, `2`=4h, `3`=24h |
+
+### 出参
+
+```json
+{
+  "success": true,
+  "data": {
+    "code": 0,
+    "data": {
+      "buyAmountUsd": "4919083.94",
+      "sellAmountUsd": "5034070.61",
+      "inflow": "-114986.67",
+      "totalAmountUsd": "9953154.55",
+      "buyNo": "23724",
+      "sellNo": "23224",
+      "totalNo": "46948",
+      "buyTraders": "4253",
+      "sellTraders": "4989",
+      "totalTraders": "6166"
+    }
+  }
+}
+```
+
+| 字段 | 说明 |
+|------|------|
+| buyAmountUsd | 买入总额 (USD) |
+| sellAmountUsd | 卖出总额 (USD) |
+| inflow | 净流入 = 买入 - 卖出 |
+| totalAmountUsd | 总成交额 (USD) |
+| buyNo / sellNo | 买入/卖出笔数 |
+| totalNo | 总交易笔数 |
+| buyTraders / sellTraders | 买入/卖出人数 |
+| totalTraders | 总交易人数 |
+
+---
+
+## 5. 代币概览
+
+```
+GET /okx-dex/token-overview
+```
+
+### 入参
+
+| 参数 | 类型 | 必填 | 说明 |
+|------|------|:----:|------|
+| chainId | string | ✓ | 链 ID |
+| tokenContractAddress | string | ✓ | 代币合约地址 |
+
+### 出参
+
+```json
+{
+  "success": true,
+  "data": {
+    "code": 0,
+    "data": {
+      "basicInfo": {
+        "tokenName": "Barking Puppy",
+        "tokenSymbol": "BP",
+        "tokenContractAddress": "3B1ijc...",
+        "chainName": "Solana",
+        "isMeme": "1"
+      },
+      "marketInfo": {
+        "tokenCreateTime": "1768692871000",
+        "tokenCreatorAddress": "AfxRML...",
+        "marketCap": "9560096.12",
+        "totalLiquidity": "834455.64",
+        "holders": "7343",
+        "circulatingSupply": "976522292.25",
+        "priceChange5M": "1.53",
+        "priceChange1H": "14.44",
+        "priceChange4H": "-15.65",
+        "priceChange24H": "44.95"
+      },
+      "memeInfo": {
+        "createTime": "1768692872000",
+        "creatorAddress": "AfxRML...",
+        "transactions": "46977",
+        "volume": "9951793.97"
+      },
+      "socialMedia": {
+        "twitter": "https://x.com/BPuppy80020",
+        "score": "61.29"
+      }
+    }
+  }
+}
+```
+
+#### 关键字段
+
+| 字段 | 说明 |
+|------|------|
+| marketInfo.tokenCreateTime | 代币创建时间戳（毫秒）- **用于计算币龄** |
+| marketInfo.tokenCreatorAddress | 创建者地址 |
+| marketInfo.marketCap | 市值 (USD) |
+| marketInfo.totalLiquidity | 总流动性 (USD) |
+| marketInfo.holders | 持有人数 |
+| marketInfo.priceChange* | 价格变化率 (5m/1h/4h/24h) |
+| memeInfo.createTime | Meme 创建时间 |
+| memeInfo.transactions | 总交易笔数 |
+| memeInfo.volume | 总成交额 |
+| socialMedia.score | 社交热度评分 |
+
+---
+
 ## 错误码
 
 | code | 说明 |

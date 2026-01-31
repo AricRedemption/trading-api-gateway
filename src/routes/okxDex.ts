@@ -83,4 +83,51 @@ router.get('/vibe-info', async (ctx: Context) => {
   ctx.body = result;
 });
 
+// 交易历史/资金流向接口
+// GET /okx-dex/trading-history?chainId=501&tokenContractAddress=xxx&type=3
+router.get('/trading-history', async (ctx: Context) => {
+  const { chainId, tokenContractAddress, type } = ctx.query;
+
+  if (!chainId || !tokenContractAddress) {
+    ctx.status = 400;
+    ctx.body = {
+      success: false,
+      error: 'chainId and tokenContractAddress are required',
+      code: 'INVALID_PARAMS',
+    };
+    return;
+  }
+
+  const result = await okxDexService.getTradingHistory({
+    chainId: chainId as string,
+    tokenContractAddress: tokenContractAddress as string,
+    type: type ? parseInt(type as string, 10) : undefined,
+  });
+
+  ctx.body = result;
+});
+
+// 代币概览接口（包含创建时间、市场信息等）
+// GET /okx-dex/token-overview?chainId=501&tokenContractAddress=xxx
+router.get('/token-overview', async (ctx: Context) => {
+  const { chainId, tokenContractAddress } = ctx.query;
+
+  if (!chainId || !tokenContractAddress) {
+    ctx.status = 400;
+    ctx.body = {
+      success: false,
+      error: 'chainId and tokenContractAddress are required',
+      code: 'INVALID_PARAMS',
+    };
+    return;
+  }
+
+  const result = await okxDexService.getTokenOverview({
+    chainId: chainId as string,
+    tokenContractAddress: tokenContractAddress as string,
+  });
+
+  ctx.body = result;
+});
+
 export default router;
